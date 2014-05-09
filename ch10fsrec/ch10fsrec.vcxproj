@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\ch10_fs.h" />
+    <ClInclude Include="inc\fsrec.h" />
+    <ClInclude Include="inc\ltypes.h" />
+    <ClInclude Include="inc\ntifs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\blockdev.c" />
+    <ClCompile Include="src\ch10fsrec.c" />
+    <ClCompile Include="src\fsrec.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\ch10fsrec.rc" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0FB3EC71-CEC4-4AA5-A74D-4ADB2E05ECCB}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>
+      rmdir /s /q $(ProjectDir)src\objchk_win7_x86
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) chk win7
+      cd /d $(ProjectDir)src
+      build
+      SignTool sign /s Ch10fsCertStore /n “Ch10fs – test” /t http://timestamp.verisign.com/scripts/timestamp.dll $(ProjectDir)obj\chk\i386\ch10fsrec.sys
+    </NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>rmdir /s /q $(ProjectDir)src\objchk_win7_x86</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>
+      rmdir /s /q $(ProjectDir)src\objchk_win7_x86
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) chk win7
+      cd /d $(ProjectDir)src
+      build
+      SignTool sign /s Ch10fsCertStore /n “Ch10fs – test” /t http://timestamp.verisign.com/scripts/timestamp.dll $(ProjectDir)obj\chk\i386\ch10fsrec.sys
+    </NMakeReBuildCommandLine>
+    <IntDir>$(ProjectDir)src\objchk_win7_x86</IntDir>
+    <OutDir>$(ProjectDir)src\objchk_win7_x86</OutDir>
+    <NMakeOutput>$(ProjectDir)obj\chk\i386\ch10fsrec.sys</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_CONSOLE;_X86_;_DDK_;_DEBUG;DBG=1;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(WDKPATH)\inc\ddk;$(WDKPATH)\inc\api;$(WDKPATH)\inc\crt;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeBuildCommandLine>
+      rmdir /s /q $(ProjectDir)src\objchk_win7_x86
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) chk x64 win7
+      cd /d $(ProjectDir)src
+      build
+      md $(SolutionDir)staging\amd64\
+      copy $(ProjectDir)obj\chk\amd64\ch10fsrec.sys $(SolutionDir)staging\ch10fsrec.sys
+      SignTool sign /s Ch10fsCertStore /n “Ch10fs – test” /t http://timestamp.verisign.com/scripts/timestamp.dll $(SolutionDir)staging\ch10fsrec.sys
+    </NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>rmdir /s /q $(ProjectDir)src\objchk_win7_amd64</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>
+      rmdir /s /q $(ProjectDir)src\objchk_win7_amd64
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) chk x64 win7
+      cd /d $(ProjectDir)src
+      build
+      md $(SolutionDir)staging\amd64\
+      copy $(ProjectDir)obj\chk\amd64\ch10fsrec.sys $(SolutionDir)staging\ch10fsrec.sys
+      SignTool sign /s Ch10fsCertStore /n “Ch10fs – test” /t http://timestamp.verisign.com/scripts/timestamp.dll $(SolutionDir)staging\ch10fsrec.sys
+    </NMakeReBuildCommandLine>
+    <IntDir>$(ProjectDir)src\objchk_win7_amd64</IntDir>
+    <OutDir>$(ProjectDir)src\objchk_win7_amd64</OutDir>
+    <NMakeOutput>$(ProjectDir)obj\chk\i386\ch10fsrec.sys</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_CONSOLE;_AMD64_;_DDK_;_DEBUG;DBG=1;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(WDKPATH)\inc\ddk;$(WDKPATH)\inc\api;$(WDKPATH)\inc\crt;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) fre win7
+      cd /d $(ProjectDir)src
+      build
+    </NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>rmdir /s /q $(ProjectDir)src\objfre_win7_x86</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>
+      rmdir /s /q $(ProjectDir)src\objfre_win7_x86
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) fre wxp
+      cd /d $(ProjectDir)src
+      build
+    </NMakeReBuildCommandLine>
+    <IntDir>$(ProjectDir)src\objfre_wxp_x86</IntDir>
+    <OutDir>$(ProjectDir)src\objfre_wxp_x86</OutDir>
+    <NMakeOutput>$(ProjectDir)src\obj\free\i386\ch10fs.sys</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_CONSOLE;_X86_;_DDK_;_NDEBUG;DBG=0;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(WDKPATH)\inc\ddk;$(WDKPATH)\inc\api;$(WDKPATH)\inc\crt;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeBuildCommandLine>
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) fre x64 win7
+      cd /d $(ProjectDir)src
+      build
+    </NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>rmdir /s /q $(ProjectDir)src\objchk_win7_amd64</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>
+      rmdir /s /q $(ProjectDir)src\objchk_win7_amd64
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) fre x64 wxp
+      cd /d $(ProjectDir)src
+      build
+    </NMakeReBuildCommandLine>
+    <IntDir>$(ProjectDir)src\objchk_win7_amd64</IntDir>
+    <OutDir>$(ProjectDir)src\objchk_win7_amd64</OutDir>
+    <NMakeOutput>$(ProjectDir)src\obj\free\i386\ch10fs.sys</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_CONSOLE;_AMD64_;_DDK_;_NDEBUG;DBG=0;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(WDKPATH)\inc\ddk;$(WDKPATH)\inc\api;$(WDKPATH)\inc\crt;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

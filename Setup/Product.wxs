@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="8670828b-260e-4e21-afd8-b82f8a6fe65a" Name="Ch10 Filesystem Driver" Language="1033" Version="0.5.0.0" Manufacturer="Arthur Walton" UpgradeCode="4ac712ed-d24a-452a-9d7e-645e8b8f5c88">
+		<Package InstallerVersion="200" Compressed="yes" />
+
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <SetDirectory Id="DIR_sys_" Value="[SystemFolder]"/>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id = "DIR_sys_">
+        <Directory Id = "DRIVERDIR" Name="drivers">
+          <Component Id='Ch10FsDriver' Guid='9992C482-352F-4C98-96E3-D99C0F7453AE'>
+            <File Id='Ch10FsDriverSYS' Name='ch10fs.sys' DiskId='1' Source='$(var.SolutionDir)staging\' KeyPath='yes' />
+            <RegistryKey Root="HKLM"
+                Key="SYSTEM\CurrentControlSet\Services\Ch10Fs">
+              <RegistryValue Type="integer" Name="ErrorControl" Value="1" KeyPath="no"/>
+              <RegistryValue Type="string" Name="Group" Value="File System"/>
+              <RegistryValue Type="integer" Name="Start" Value="1" KeyPath="no"/>
+              <RegistryValue Type="integer" Name="Type" Value="2" KeyPath="no"/>
+            </RegistryKey>
+          </Component>
+
+          <Component Id='Ch10FsRecDriver' Guid='27D7501E-CF9D-463F-87FA-343A9C8B60B2'>
+            <File Id='Ch10FsRecDriverSYS' Name='ch10fsrec.sys' DiskId='1' Source='$(var.SolutionDir)staging\' KeyPath='yes' />
+            <RegistryKey Root="HKLM"
+                Key="SYSTEM\CurrentControlSet\Services\Ch10FsRec">
+              <RegistryValue Type="integer" Name="ErrorControl" Value="1" KeyPath="no"/>
+              <RegistryValue Type="integer" Name="Start" Value="1" KeyPath="no"/>
+              <RegistryValue Type="integer" Name="Type" Value="8" KeyPath="no"/>
+            </RegistryKey>
+          </Component>
+        </Directory>
+      </Directory>
+		</Directory>
+    
+    <Feature Id="Ch10FsDriverFeat" Title="Ch10 Filesystem Driver" Level="1">
+      <ComponentRef Id='Ch10FsDriver' />
+      <ComponentRef Id='Ch10FsRecDriver' />
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="TARGETDIR" />
+
+    <UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <InstallExecuteSequence>
+      <ScheduleReboot After="InstallFinalize"/>
+    </InstallExecuteSequence>
+	</Product>
+</Wix>

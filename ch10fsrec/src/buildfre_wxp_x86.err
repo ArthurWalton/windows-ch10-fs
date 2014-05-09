@@ -1,0 +1,5 @@
+1>errors in directory d:\ch10fs\ch10fsrec\src
+1>d:\ch10fs\ch10fsrec\inc\ntifs.h(1393) : error C2220: warning treated as error - no 'object' file generated
+1>d:\ch10fs\ch10fsrec\inc\ntifs.h(1393) : error C2220: warning treated as error - no 'object' file generated
+1>d:\ch10fs\ch10fsrec\inc\ntifs.h(1393) : error C2220: warning treated as error - no 'object' file generated
+1>link : error LNK1181: cannot open input file 'd:\ch10fs\ch10fsrec\src\objfre_wxp_x86\i386\blockdev.obj'

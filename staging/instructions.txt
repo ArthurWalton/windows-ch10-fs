@@ -1,0 +1,1 @@
+Inf2Cat.exe /driver:. /os:7_x64

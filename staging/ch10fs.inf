@@ -1,0 +1,111 @@
+
+[Version]
+Class      = System
+ClassGuid  = {00000000-0000-0000-0000-000000000000} 
+Provider   = "Arthur Walton"
+Signature  = "$Windows NT$"
+DriverVer  = 05/07/2014, 1.1
+CatalogFile = ch10fs.cat
+
+[ClassInstall32]
+AddReg     = Ch10Fsd.Install.ClassReg
+
+[Ch10Fsd.Install.ClassReg]
+HKR,,,%REG_SZ%,"%Ch10Fsd*Class%"
+
+[Manufacturer]
+%Ch10Fsd*Author% = FileSystem,NTamd64
+
+[Ch10Fsd.Install.AddReg]
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Uninstall\%Ch10Fsd*Key%","DisplayName",%REG_SZ%,"%Ch10Fsd*Description%"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Uninstall\%Ch10Fsd*Key%","DisplayVersion",%REG_SZ%,"%Ch10Fsd*Version%"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Uninstall\%Ch10Fsd*Key%","HelpLink",%REG_SZ%,"%Ch10Fsd*URL%"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Uninstall\%Ch10Fsd*Key%","InstallLocation",%REG_SZ%,"%12%"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Uninstall\%Ch10Fsd*Key%","InstallSource",%REG_SZ%,"%01%"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Uninstall\%Ch10Fsd*Key%","Publisher",%REG_SZ%,"%Ch10Fsd*Author% <%Ch10Fsd*eMail%>"
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Uninstall\%Ch10Fsd*Key%","URLInfoAbout",%REG_SZ%,"%Ch10Fsd*URL%"
+
+[Ch10Fsd.Remove.DelReg]
+HKLM,"Software\Microsoft\Windows\CurrentVersion\Uninstall\%Ch10Fsd*Key%"
+HKLM,"System\CurrentControlSet\Services\%Ch10Fsd*Key%\Parameters"
+
+[Ch10Fsd.Service]
+DisplayName    = "%Ch10Fsd*Driver%"
+ServiceType    = %SERVICE_KERNEL_FILESYSTEM_DRIVER%
+StartType      = %SERVICE_SYSTEM_START%
+ErrorControl   = %SERVICE_ERROR_NORMAL%
+ServiceBinary  = "%12%\ch10fs.sys"
+
+[Ch10Fsr.Service]
+DisplayName    = "%Ch10Fsr*Driver %"
+ServiceType    = %SERVICE_KERNEL_FILESYSTEM_REC_DRIVER%
+StartType      = %SERVICE_SYSTEM_START%
+ErrorControl   = %SERVICE_ERROR_NORMAL%
+ServiceBinary  = "%12%\ch10fsrec.sys"
+
+[SourceDisksNames]
+1 = "Ch10 FS Media",file.tag,,amd64
+
+[SourceDisksFiles]
+ch10fs.sys      = 1
+ch10fsrec.sys   = 1
+
+[DestinationDirs]
+Ch10Fsd.Files.Drv         = 12   ; %SystemRoot%\System32\Drivers
+Ch10Fsd.Files.Drv.NTamd64 = 12   ; %SystemRoot%\System32\Drivers
+
+[Ch10Fsd.Files.Drv]
+ch10fs.sys,,,
+
+[Ch10Fsd.Files.Drv.NTamd64]
+ch10fs.sys,,,
+
+[Strings]
+Ch10Fsd*Author      = "Arthur Walton"
+Ch10Fsd*Class       = "File System"
+Ch10Fsd*Description = "IRIG 106 Ch10 file system driver"
+Ch10Fsd*Driver      = "IRIG 106 Ch10 file system driver"
+Ch10Fsd*eMail       = "arthur.walton2@gmail.com"
+Ch10Fsd*Key         = "Ch10Fsd"
+Ch10Fsd*Version     = "1.01"
+Ch10Fsr*Driver      = "IRIG 106 Ch10 file system recognizer"
+
+; Non-Localizable Strings
+DELFLG_IN_USE1 = 0x00010000
+
+; Registry Data Types
+REG_SZ                  = 0x00000000
+REG_BINARY              = 0x00000001
+REG_SZ_NOCLOBBER        = 0x00000002
+REG_BINARY_NOCLOBBER    = 0x00000003
+REG_MULTI_SZ            = 0x00010000
+REG_DWORD               = 0x00010001
+REG_MULTI_SZ_NOCLOBBER  = 0x00010002
+REG_DWORD_NOCLOBBER     = 0x00010003
+REG_EXPAND_SZ           = 0x00020000
+REG_EXPAND_SZ_NOCLOBBER = 0x00020002
+
+; Driver and Service Types
+SERVICE_KERNEL_DRIVER                = 0x00000001
+SERVICE_KERNEL_FILESYSTEM_DRIVER     = 0x00000002
+SERVICE_NETWORK_ADAPTER_DRIVER       = 0x00000004
+SERVICE_KERNEL_FILESYSTEM_REC_DRIVER = 0x00000008
+SERVICE_WIN32_OWN_PROCESS            = 0x00000010
+SERVICE_WIN32_SHARED_PROCESS         = 0x00000020
+
+; Driver and Service Start Types
+SERVICE_BOOT_START   = 0
+SERVICE_SYSTEM_START = 1
+SERVICE_AUTO_START   = 2
+SERVICE_MANUAL_START = 3
+SERVICE_NEVER_START  = 4   ; (deactivated)
+
+; Driver and Service Error Control
+SERVICE_ERROR_IGNORE   = 0
+SERVICE_ERROR_NORMAL   = 1
+SERVICE_ERROR_SEVERE   = 2
+SERVICE_ERROR_CRITICAL = 3
+
+SVCINST_TAGTOFRONT          = 0x00000001
+SVCINST_ASSOCSERVICE        = 0x00000002
+SVCINST_DELETEEVENTLOGENTRY = 0x00000004

@@ -1,0 +1,6 @@
+1>warnings in directory d:\ch10fs\ch10fsrec\src
+1>d:\ch10fs\ch10fsrec\inc\ntifs.h(1393) : warning C4005: 'SEC_COMMIT' : macro redefinition
+1>d:\ch10fs\ch10fsrec\inc\ntifs.h(1393) : warning C4005: 'SEC_COMMIT' : macro redefinition
+1>d:\ch10fs\ch10fsrec\inc\ntifs.h(1393) : warning C4005: 'SEC_COMMIT' : macro redefinition
+1>d:\ch10fs\ch10fsrec\src\ch10fsrec.c(5) : warning C4079: unexpected token 'identifier'
+1>d:\ch10fs\ch10fsrec\src\ch10fsrec.c(5) : warning C4081: expected 'newline'; found ')'

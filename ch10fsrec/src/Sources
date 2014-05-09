@@ -1,0 +1,8 @@
+TARGETNAME=ch10fsrec
+TARGETPATH=..\obj\$(DDKBUILDENV)
+TARGETTYPE=DRIVER
+INCLUDES=..\inc
+SOURCES=blockdev.c  \
+        fsrec.c     \
+        ch10fsrec.c  \
+        ch10fsrec.rc

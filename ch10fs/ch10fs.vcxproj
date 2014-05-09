@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E3316C19-7CCF-4858-9616-B8E0399EC7C0}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeBuildCommandLine>
+      rmdir /s /q $(ProjectDir)obj\objchk_win7_x86
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) chk win7
+      cd /d $(ProjectDir)src
+      build
+      SignTool sign /s Ch10fsCertStore /n “Ch10fs – test” /t http://timestamp.verisign.com/scripts/timestamp.dll $(SolutionDir)staging\i386\ch10fs.sys
+    </NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>rmdir /s /q $(ProjectDir)src\objchk_wxp_x86</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>
+      rmdir /s /q $(ProjectDir)obj\objchk_win7_x86
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) chk win7
+      cd /d $(ProjectDir)src
+      build
+      SignTool sign /s Ch10fsCertStore /n “Ch10fs – test” /t http://timestamp.verisign.com/scripts/timestamp.dll $(SolutionDir)staging\i386\ch10fs.sys
+    </NMakeReBuildCommandLine>
+    <IntDir>$(ProjectDir)obj\objchk_win7_x86</IntDir>
+    <OutDir>$(ProjectDir)obj\objchk_win7_x86</OutDir>
+    <NMakeOutput>$(ProjectDir)obj\chk\i386\ch10fs.sys</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_CONSOLE;_X86_;_DDK_;_DEBUG;DBG=1;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(WDKPATH)\inc\ddk;$(WDKPATH)\inc\api;$(WDKPATH)\inc\crt;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeBuildCommandLine>
+      rmdir /s /q $(ProjectDir)obj\objchk_win7_amd64
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) chk x64 win7
+      cd /d $(ProjectDir)src
+      build
+      md $(SolutionDir)staging\amd64\
+      copy $(ProjectDir)obj\chk\amd64\ch10fs.sys $(SolutionDir)staging\ch10fs.sys
+      SignTool sign /s Ch10fsCertStore /n “Ch10fs – test” /t http://timestamp.verisign.com/scripts/timestamp.dll $(SolutionDir)staging\ch10fs.sys
+    </NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>rmdir /s /q $(ProjectDir)obj\objchk_wxp_x86</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>
+      rmdir /s /q $(ProjectDir)obj\objchk_win7_amd64
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) chk x64 win7
+      cd /d $(ProjectDir)src
+      build
+      md $(SolutionDir)staging\amd64\
+      copy $(ProjectDir)obj\chk\amd64\ch10fs.sys $(SolutionDir)staging\ch10fs.sys
+      SignTool sign /s Ch10fsCertStore /n “Ch10fs – test” /t http://timestamp.verisign.com/scripts/timestamp.dll $(SolutionDir)staging\ch10fs.sys
+    </NMakeReBuildCommandLine>
+    <IntDir>$(ProjectDir)obj\objchk_win7_amd64</IntDir>
+    <OutDir>$(ProjectDir)obj\objchk_win7_amd64</OutDir>
+    <NMakeOutput>$(ProjectDir)obj\chk\amd64\ch10fs64.sys</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_CONSOLE;_AMD64_;_DDK_;_DEBUG;DBG=1;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(WDKPATH)\inc\ddk;$(WDKPATH)\inc\api;$(WDKPATH)\inc\crt;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeBuildCommandLine>
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) fre win7
+      cd /d $(ProjectDir)src
+      build
+    </NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>rmdir /s /q $(ProjectDir)ch10fs\src\objfre_win7_x86</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>
+      rmdir /s /q $(ProjectDir)ch10fs\src\objfre_win7_x86
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) fre win7
+      cd /d $(ProjectDir)src
+      build
+    </NMakeReBuildCommandLine>
+    <IntDir>$(ProjectDir)src\objfre_win7_x86</IntDir>
+    <OutDir>$(ProjectDir)src\objfre_win7_x86</OutDir>
+    <NMakeOutput>$(ProjectDir)src\obj\free\i386\ch10fs.sys</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_CONSOLE;_X86_;_DDK_;_NDEBUG;DBG=0;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(WDKPATH)\inc\ddk;$(WDKPATH)\inc\api;$(WDKPATH)\inc\crt;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeBuildCommandLine>
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) fre x64 win7
+      cd /d $(ProjectDir)src
+      build
+    </NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>rmdir /s /q $(ProjectDir)obj\objfre_win7_amd64</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>
+      rmdir /s /q $(ProjectDir)obj\objchk_win7_amd64
+      call $(WDKPATH)\bin\setenv.bat $(WDKPATH) fre x64  win7
+      cd /d $(ProjectDir)src
+      build
+    </NMakeReBuildCommandLine>
+    <IntDir>$(ProjectDir)obj\objchk_win7_amd64</IntDir>
+    <OutDir>$(ProjectDir)obj\objchk_win7_amd64</OutDir>
+    <NMakeOutput>$(SolutionDir)staging\amd64\ch10fs64.sys</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_CONSOLE;_AMD64_;_DDK_;_NDEBUG;DBG=0;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeIncludeSearchPath>$(WDKPATH)\inc\ddk;$(WDKPATH)\inc\api;$(WDKPATH)\inc\crt;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\alloc.c" />
+    <ClCompile Include="src\blockdev.c" />
+    <ClCompile Include="src\ch10fs.c" />
+    <ClCompile Include="src\ch10fsrec.c" />
+    <ClCompile Include="src\char.c" />
+    <ClCompile Include="src\cleanup.c" />
+    <ClCompile Include="src\close.c" />
+    <ClCompile Include="src\cmcb.c" />
+    <ClCompile Include="src\create.c" />
+    <ClCompile Include="src\debug.c" />
+    <ClCompile Include="src\devctl.c" />
+    <ClCompile Include="src\dirctl.c" />
+    <ClCompile Include="src\fastio.c" />
+    <ClCompile Include="src\fileinfo.c" />
+    <ClCompile Include="src\fsctl.c" />
+    <ClCompile Include="src\fsd.c" />
+    <ClCompile Include="src\init.c" />
+    <ClCompile Include="src\lockctl.c" />
+    <ClCompile Include="src\read.c" />
+    <ClCompile Include="src\string.c" />
+    <ClCompile Include="src\volinfo.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\sources" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\border.h" />
+    <ClInclude Include="inc\ch10fs.h" />
+    <ClInclude Include="inc\ch10_fs.h" />
+    <ClInclude Include="inc\fsd.h" />
+    <ClInclude Include="inc\ltypes.h" />
+    <ClInclude Include="inc\ntifs.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
